@@ -1,0 +1,17 @@
+{
+  "name": "web-crawler",
+  "version": "0.3.0",
+  "description": "Web crawler written as a school project.",
+  "main": "index.js",
+  "author": "Hrafn Eiriksson <hrafn@eiriksson.is>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "~1.12.1"
+  },
+  "dependencies": {
+    "colors": "*",
+    "lodash": "~2.3.0",
+    "request": "~2.27.0",
+    "cheerio": "~0.12.4"
+  }
+}
