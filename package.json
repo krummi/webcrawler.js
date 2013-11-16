@@ -12,6 +12,7 @@
     "colors": "*",
     "lodash": "~2.3.0",
     "request": "~2.27.0",
-    "cheerio": "~0.12.4"
+    "cheerio": "~0.12.4",
+    "string": "~1.6.1"
   }
 }

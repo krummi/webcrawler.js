@@ -25,14 +25,18 @@ describe('Crawler', function() {
       var a = crawler.canonicalize('http://www.cnn.com:443/TECH/');
       assert.equal(a, 'http://www.cnn.com:443/TECH/');
     }),
-    it('should add trailing slash with directories', function() {
+    it('should add trailing slash to host', function() {
       var a = crawler.canonicalize('http://informatics.indiana.edu');
       assert.equal(a, 'http://informatics.indiana.edu/');
     }),
+    /**
+    Note: It does not make any sense to me to do this since many websites
+          have something that looks like a subdirectory but isnt one.
     it('should add trailing slash with directories', function() {
       var a = crawler.canonicalize('http://informatics.indiana.edu/test');
       assert.equal(a, 'http://informatics.indiana.edu/test/');
-    }),    
+    }),
+    */
     it('should remove fragments', function() {
       a = crawler.canonicalize('http://informatics.indiana.edu/index.html#fragment');
       assert.equal(a, 'http://informatics.indiana.edu/index.html');
