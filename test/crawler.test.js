@@ -3,15 +3,61 @@ var assert = require("assert");
 var Crawler = require('./../lib/crawler');
 
 describe('Crawler', function() {
-  beforeEach(function() {
-    crawler = new Crawler();
-  });
+
+  describe('#constructor', function () {
+    it('should understand an array of seeds', function() {
+      crawler = new Crawler({
+        seeds: ['http://www.mbl.is', 'http://www.dv.is'],
+        topic: 'golf',
+        query_words: 'birgir leifur'
+      });
+      assert.equal(crawler.seeds.length, 2);
+    }),
+    it('should understand a string seed', function() {
+      crawler = new Crawler({
+        seeds: 'http://www.mbl.is/',
+        topic: 'golf',
+        query_words: 'birgir leifur'
+      });
+      assert.equal(crawler.seeds.length, 1);
+      assert.equal(crawler.seeds[0], 'http://www.mbl.is');
+    }),
+    it('should throw an error when it does not understand seeds', function() {
+      try {
+        crawler = new Crawler({
+          seeds: { 'test': 'ing' }, topic: 'a', query_words: 'b'
+        });
+        assert.false();
+      } catch (e) {
+        assert.true();
+      }
+    });
+  }),
+
   describe('#extractLinks()', function() {
+    beforeEach(function() {
+      crawler = new Crawler({ seeds: 'a', topic: 'b', query_words: 'c' });
+    });
     it('should return 1 when one link in body', function() {
       var x = crawler.extractLinks('<a href="http://www.mbl.is">mbl.is</a>');
       assert.equal(x.length, 1);
     });
   }),
+
+  describe('#scoreLink', function() {
+    beforeEach(function() {
+      crawler = new Crawler({ seeds: 'a', topic: 'golf', query_words: 'c' });
+    });
+    it('should give 1.0 to relevant links', function() {
+      assert.equal(1.0, crawler.scoreLink('http://mbl.is/sport/golf/'));
+      assert.equal(1.0, crawler.scoreLink('golf/2013/11/06/hoggi_fra_ad_k'));
+    }),
+    it('should give 0.0 to non-relevant links', function() {
+      assert.equal(0.0, crawler.scoreLink('http://www.mbl.is/sport/fotbolti/'));
+      assert.equal(0.0, crawler.scoreLink('/sport/fotbolti/'));
+    });
+  }),
+  
   describe('#canonicalize', function() {
     it('should remove port when 80 with scheme:http', function() {
       var a = crawler.canonicalize('http://www.cnn.com:80/TECH/');
