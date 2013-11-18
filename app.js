@@ -1,7 +1,10 @@
 var Crawler = require('./lib/crawler.js');
 
 var crawler = new Crawler({
+	seeds: ['http://www.mbl.is'],
+	topic: 'golf',
+	query_words: 'birgir leifur',
 	max_pages: 1
 });
 
-crawler.start('http://www.mbl.is', 'golf', 'birgir leifur');
+crawler.start();
