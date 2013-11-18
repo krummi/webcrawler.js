@@ -4,7 +4,7 @@ var Crawler = require('./../lib/crawler');
 
 describe('Crawler', function() {
 
-  describe('#constructor', function () {
+  describe('#constructor', function() {
     it('should understand an array of seeds', function() {
       crawler = new Crawler({
         seeds: ['http://www.mbl.is', 'http://www.dv.is'],
@@ -20,16 +20,17 @@ describe('Crawler', function() {
         query_words: 'birgir leifur'
       });
       assert.equal(crawler.seeds.length, 1);
-      assert.equal(crawler.seeds[0], 'http://www.mbl.is');
+      assert.equal(crawler.seeds[0], 'http://www.mbl.is/');
     }),
     it('should throw an error when it does not understand seeds', function() {
       try {
         crawler = new Crawler({
           seeds: { 'test': 'ing' }, topic: 'a', query_words: 'b'
         });
-        assert.false();
+        assert.fail();
       } catch (e) {
-        assert.true();
+        console.log('hahahah');
+        assert.ok(true);
       }
     });
   }),
@@ -57,7 +58,7 @@ describe('Crawler', function() {
       assert.equal(0.0, crawler.scoreLink('/sport/fotbolti/'));
     });
   }),
-  
+
   describe('#canonicalize', function() {
     it('should remove port when 80 with scheme:http', function() {
       var a = crawler.canonicalize('http://www.cnn.com:80/TECH/');

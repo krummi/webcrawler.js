@@ -6,6 +6,7 @@ describe('Frontier', function() {
   beforeEach(function() {
     frontier = new Frontier();
   });
+  
   describe('#add', function() {
     it('-ing two domains should create two heaps', function() {
       frontier.add('http://www.mbl.is/testing');
@@ -19,7 +20,5 @@ describe('Frontier', function() {
       assert.equal(frontier.heaps.length, 2);
     });
   }),
-  describe('', function() {
 
-  });
 });
