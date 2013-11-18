@@ -29,7 +29,6 @@ describe('Crawler', function() {
         });
         assert.fail();
       } catch (e) {
-        console.log('hahahah');
         assert.ok(true);
       }
     });
