@@ -19,8 +19,60 @@ We implement a rather simple best-first search tree traversal technique that use
 
 ### Scoring Mechanism
 
-We give 0.5 to links if their lower case equivalent contains the topic. We also split the query words into an array *A* of strings and add 1/|*A*| to the score for each query word that the link contains. This means that if we have an link that looks like this:
+We give 0.5 to links if their lower case equivalent contains the topic. We also split the query words into an array *A* of strings and add 1/len(*A*) to the score for each query word that the link contains. This means that if we have an link that looks like this:
 
-  https://secure.mbl.is/sport/golf/2013/09/25/birgir_leifur_i_urtokumot_fyrir_pga/
+    https://secure.mbl.is/sport/golf/2013/09/25/birgir_leifur_i_urtokumot_fyrir_pga/
 
-and we have the topic 'golf' and query words 'birgir leifur', the link will get a score of 1 (0.5 for containing the topic 'golf', 0.25 for containing 'birgir' and 0.25 for containing 'leifur').
+and we have the topic `golf` and query words `birgir leifur`, the link will get a score of 1 (0.5 for containing the topic `golf`, 0.25 for containing `birgir` and 0.25 for containing `leifur`).
+
+### Concurrency Approach
+
+TODO.
+
+### Example input/output
+
+#### Input
+
+<pre>
+var Crawler = require('./lib/crawler.js');
+
+var crawler = new Crawler({
+	seeds: ['http://www.mbl.is'],
+	topic: 'golf',
+	query_words: 'birgir leifur',
+	max_pages: 500,
+  max_domains: 10
+});
+
+crawler.start();
+</pre>
+
+#### Output
+
+<pre>
+-----------------------------------------
+Starting crawl, seed: http://www.mbl.is/
+Topic: golf
+Query string: birgir leifur
+Maximum number of pages: 500
+-----------------------------------------
+Search complete, crawled 500 pages in 137020 ms.
+Query found on page: http://www.mbl.is/
+Query found on page: http://www.mbl.is/sport/golf/2013/11/22/birgir_leifur_thremur_undir_fyrir_lokahringinn/
+Query found on page: http://www.mbl.is/sport/golf/
+Query found on page: http://www.mbl.is/sport/golf/2013/11/21/birgir_leifur_a_einu_hoggi_yfir_pari/
+Query found on page: http://www.mbl.is/sport/golf/2013/11/04/birgir_leifur_lek_a_einu_undir_pari/
+Query found on page: http://www.mbl.is/sport/golf/2013/09/25/birgir_leifur_i_urtokumot_fyrir_pga/
+Query found on page: http://www.mbl.is/sport/golf/2013/09/20/birgir_leifur_komst_afram/
+Query found on page: http://www.mbl.is/sport/golf/2013/11/03/birgir_leifur_tharf_ad_leika_betur/
+Query found on page: http://www.mbl.is/sport/golf/2013/10/25/birgir_leifur_komst_afram/
+Query found on page: http://www.mbl.is/sport/golf/2013/10/25/birgir_leifur_a_tveimur_yfir_eftir_thrja_hringi/
+Query found on page: http://www.mbl.is/sport/golf/2013/10/24/birgir_leifur_a_pari_eftir_tvo_hringi/
+Query found on page: http://www.mbl.is/sport/golf/2013/10/22/birgir_leifur_lek_a_hoggi_undir_pari/
+Query found on page: http://www.mbl.is/sport/golf/2013/09/19/birgir_og_thordur_i_hardri_barattu/
+Query found on page: http://www.mbl.is/sport/golf/2013/09/18/birgir_og_thordur_eru_fjorum_undir_i_thyskalandi/
+Search query birgir leifur found in 14 pages
+No of distinctive links found: 4126
+Total no of links found: 136609
+-----------------------------------------
+</pre>
