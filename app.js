@@ -5,7 +5,7 @@ var crawler = new Crawler({
 	topic: 'golf',
 	query_words: 'birgir leifur',
 	max_pages: 200,
-  max_domains: 5
+  max_domains: 20
 });
 
 crawler.start();
