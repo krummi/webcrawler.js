@@ -23,4 +23,4 @@ We give 0.5 to links if their lower case equivalent contains the topic. We also 
 
   https://secure.mbl.is/sport/golf/2013/09/25/birgir_leifur_i_urtokumot_fyrir_pga/
 
-and we have the topic 'golf' and query words 'birgir leifur', the link will get a score of 1 (0.5 for including the topic 'golf', 0.25 for including 'birgir' and 0.25 for including 'leifur').
+and we have the topic 'golf' and query words 'birgir leifur', the link will get a score of 1 (0.5 for containing the topic 'golf', 0.25 for containing 'birgir' and 0.25 for containing 'leifur').
