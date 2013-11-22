@@ -3,7 +3,11 @@ webcrawler.js
 
 A targeted web crawler written in NodeJS. In short, our target design was a crawler that would be insanely fast, rather flexible whilst still conforming to industry standards when it comes to politeness.
 
-## Implementation Details
+### Concurrency Approach
+
+We utilize NodeJS to achieve concurrency in our crawler. This is rather easy with NodeJS, since it is asynchronous by nature, i.e. when you fire an HTTP request to some URL it will *not* block until a response it received but go on to do other things while it is waiting for the response. But to achieve both "politeness" and "concurrency" you have to be a bit clever, because if you encounter two links: www.mbl.is/1 and www.mbl.is/2 you are not going to want to fire off 2 requests at the same moment, because that wouldn't be polite.
+
+What we do to achieve both concurrency and politeness is that we do not have a single frontier that keeps track of all of the URLs that we are going to visit. Instead we have a single frontier per each domain that we encounter and then we crawl *X* domains simultaneously. When we've crawled all URLs belonging to a specific domain, a new domain is picked to be crawled instead based on *the average score of the links* associated with that particular domain. We thus first process domains that look good.
 
 ### HTML parsing and DOM querying
 
@@ -25,15 +29,11 @@ We give 0.5 to links if their lower case equivalent contains the topic. We also 
 
 and we have the topic `golf` and query words `birgir leifur`, the link will get a score of 1 (0.5 for containing the topic `golf`, 0.25 for containing `birgir` and 0.25 for containing `leifur`).
 
-### Concurrency Approach
-
-TODO.
-
 ### Example Usage
 
 #### Input
 
-```node
+```javascript
 var Crawler = require('./lib/crawler.js');
 
 var crawler = new Crawler({
