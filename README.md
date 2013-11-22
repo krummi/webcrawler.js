@@ -16,3 +16,11 @@ In general, it obviously depends on the use case you are going after which of th
 ### Traversal
 
 We implement a rather simple best-first search tree traversal technique that uses a binary heap to order web pages by their _score_ that tells the crawler _how relevant_ each of the pages seem to be according to some search query that the user provides it with.
+
+### Scoring Mechanism
+
+We give 0.5 to links if their lower case equivalent contains the topic. We also split the query words into an array A of strings and add 1/len(A) to the score for each query word that the link contains. This means that if we have an link that looks like this:
+
+  https://secure.mbl.is/sport/golf/2013/09/25/birgir_leifur_i_urtokumot_fyrir_pga/
+
+and we have the topic 'golf' and query words 'birgir leifur', the link will get a score of 1 (0.5 for including the topic 'golf', 0.25 for including 'birgir' and 0.25 for including 'leifur').
