@@ -33,7 +33,7 @@ TODO.
 
 #### Input
 
-```nodejs
+```node
 var Crawler = require('./lib/crawler.js');
 
 var crawler = new Crawler({
