@@ -4,8 +4,8 @@ var crawler = new Crawler({
 	seeds: ['http://www.mbl.is'],
 	topic: 'golf',
 	query_words: 'birgir leifur',
-	max_pages: 500,
-  max_domains: 10
+	max_pages: 100,
+  max_domains: 5
 });
 
 crawler.start();

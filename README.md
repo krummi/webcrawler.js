@@ -3,11 +3,18 @@ webcrawler.js
 
 A targeted web crawler written in NodeJS. In short, our target design was a crawler that would be insanely fast, rather flexible whilst still conforming to industry standards when it comes to politeness.
 
+### How To Run
+
+```bash
+npm install
+node app.js
+```
+
 ### Concurrency Approach
 
-We utilize NodeJS to achieve concurrency in our crawler. This is rather easy with NodeJS, since it is asynchronous by nature, i.e. when you fire an HTTP request to some URL it will *not* block until a response it received but go on to do other things while it is waiting for the response. But to achieve both "politeness" and "concurrency" you have to be a bit clever, because if you encounter two links: www.mbl.is/1 and www.mbl.is/2 you are not going to want to fire off 2 requests at the same moment, because that wouldn't be polite.
+We utilize NodeJS to achieve concurrency in our crawler. This is rather easy with NodeJS, since it is asynchronous by nature, i.e. when you fire off an HTTP request to some URL it will *not* block until a response is received but will instead go on to do other things while it is waiting for the response. But to achieve both "politeness" and "concurrency" you have to be a bit clever, because if you encounter two links: www.mbl.is/1 and www.mbl.is/2 you are not going to want to fire off 2 requests at the same moment, because that wouldn't be polite.
 
-What we do to achieve both concurrency and politeness is that we do not have a single frontier that keeps track of all of the URLs that we are going to visit. Instead we have a single frontier per each domain that we encounter and then we crawl *X* domains simultaneously. When we've crawled all URLs belonging to a specific domain, a new domain is picked to be crawled instead based on *the average score of the links* associated with that particular domain. We thus first process domains that look good.
+What we do to achieve both concurrency and politeness is that we do not have a single frontier that keeps track of all of the URLs that we are going to visit. Instead, we have a single frontier per each domain that we encounter and then we crawl *X* domains simultaneously. When we've crawled all URLs belonging to a specific domain, a new domain is picked to be crawled instead based on *the average score of the links* associated with that particular domain. We thus process domains that look good first.
 
 ### HTML parsing and DOM querying
 
@@ -16,10 +23,6 @@ We use the [cheerio](http://matthewmueller.github.com/cheerio/) for HTML parsing
 This however means that our scraper does *not* handle dynamic web pages well. This is mostly due to the fact that we never execute the JavaScript code that many web pages will contain. If the web pages that we scrape run AJAX calls to fetch some arbitrary data, our scraper will not come across this data. To alleviate this problem we could either use something like [JSDOM](https://github.com/tmpvar/jsdom) that takes DOM emulation even further - but is both stricter when it comes to HTML parsing and slower in general - or [PhantomJS](http://phantomjs.org/) which is a headless WebKit implementation. PhantomJS would probably be the best fit if we wanted to handle very dynamic web pages since it behaves as your typical browser. Waiting for PhantomJS to render pages would however take even more time.
 
 In general, it depends on the use case which of the aforementioned approaches you would use. But as we mentioned earlier we wanted our crawler to be fast and flexible, and because of this cheerio seemed to fit us very well.
-
-### Traversal
-
-We implement a rather simple best-first search tree traversal technique that uses a binary heap to order web pages by their _score_ that tells the crawler _how relevant_ each of the pages seem to be according to some search query that the user provides it with.
 
 ### Scoring Mechanism
 
