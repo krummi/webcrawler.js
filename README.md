@@ -29,11 +29,11 @@ and we have the topic `golf` and query words `birgir leifur`, the link will get 
 
 TODO.
 
-### Example input/output
+### Example Usage
 
 #### Input
 
-<pre>
+```node
 var Crawler = require('./lib/crawler.js');
 
 var crawler = new Crawler({
@@ -45,7 +45,7 @@ var crawler = new Crawler({
 });
 
 crawler.start();
-</pre>
+``
 
 #### Output
 
